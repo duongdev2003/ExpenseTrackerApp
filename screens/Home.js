@@ -449,24 +449,32 @@ const Home = () => {
         );
     }
 
-    function renderIncomingExpensesTitle() {
-        return (
-            <View>
-                <Text style={{...FONTS.h3, color: COLORS.primary}}>INCOMING EXPENSES</Text>
-                <Text style={{...FONTS.body4, color: COLORS.darkgray}}>12 Total</Text>
-            </View>
-        );
-    }
-
-    function renderIncomingExpenses() {
-        let allExpenses = selectedCategory ? selectedCategory.expenses : [];
-        // Filter pending expenses
-        let incomingExpenses = allExpenses.filter(a => a.status == 'P');
-
-        const renderItem = ({item, index}) => {
+        function renderIncomingExpensesTitle() {
             return (
-                <View>
-                    {/* title */}
+                <View style={{height: 80, backgroundColor: COLORS.lightGray2, padding: SIZES.padding}}>
+                    {/* Title */}
+                    <Text style={{...FONTS.h3, color: COLORS.primary}}>INCOMING EXPENSES</Text>
+                    <Text style={{...FONTS.body4, color: COLORS.darkgray}}>12 Total</Text>
+                </View>
+            );
+        }
+
+        function renderIncomingExpenses() {
+            let allExpenses = selectedCategory ? selectedCategory.expenses : [];
+            let incomingExpenses = allExpenses.filter(a => a.status == 'P');
+
+            const renderItem = ({item, index}) => (
+                <View
+                    style={{
+                        width: 300,
+                        marginRight: SIZES.padding,
+                        marginLeft: index == 0 ? SIZES.padding : 0,
+                        marginVertical: SIZES.radius,
+                        borderRadius: SIZES.radius,
+                        backgroundColor: COLORS.white,
+                        ...styles.shadow,
+                    }}>
+                    {/* Title */}
                     <View style={{flexDirection: 'row', padding: SIZES.padding, alignItems: 'center'}}>
                         <View
                             style={{
@@ -487,18 +495,20 @@ const Home = () => {
                                 }}
                             />
                         </View>
+
                         <Text style={{...FONTS.h3, color: selectedCategory.color}}>{selectedCategory.name}</Text>
                     </View>
-                    {/* expenses desc */}
+
+                    {/* Expense Description */}
                     <View style={{paddingHorizontal: SIZES.padding}}>
-                        {/* title and desc */}
+                        {/* Title and description */}
                         <Text style={{...FONTS.h2}}>{item.title}</Text>
                         <Text style={{...FONTS.body3, flexWrap: 'wrap', color: COLORS.darkgray}}>
                             {item.description}
                         </Text>
 
-                        {/* location */}
-                        <Text style={{marginTop: SIZES.padding}}>Location</Text>
+                        {/* Location */}
+                        <Text style={{marginTop: SIZES.padding, ...FONTS.h4}}>Location</Text>
                         <View style={{flexDirection: 'row'}}>
                             <Image
                                 source={icons.pin}
@@ -513,45 +523,45 @@ const Home = () => {
                                 {item.location}
                             </Text>
                         </View>
-                        {/* price */}
-                        <View
-                            style={{
-                                height: 50,
-                                alignItems: 'center',
-                                justifyContent: 'center',
-                                borderBottomStartRadius: SIZES.radius,
-                                borderBottomEndRadius: SIZES.radius,
-                                backgroundColor: selectedCategory.color,
-                            }}>
-                            <Text style={{color: COLORS.white, ...FONTS.body3}}>
-                                CONFIRM {item.total.toFixed(2)} USD
-                            </Text>
-                        </View>
+                    </View>
+
+                    {/* Price */}
+                    <View
+                        style={{
+                            height: 50,
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            borderBottomStartRadius: SIZES.radius,
+                            borderBottomEndRadius: SIZES.radius,
+                            backgroundColor: selectedCategory.color,
+                        }}>
+                        <Text style={{color: COLORS.white, ...FONTS.body3}}>CONFIRM {item.total.toFixed(2)} USD</Text>
                     </View>
                 </View>
             );
-        };
 
-        return (
-            <View>
-                {renderIncomingExpensesTitle()}
-                {incomingExpenses.length > 0 && (
-                    <FlatList
-                        data={incomingExpenses}
-                        renderItem={renderItem}
-                        keyExtractor={item => `${item.id}`}
-                        horizontal
-                        showsHorizontalScrollIndicator
-                    />
-                )}
-                {incomingExpenses.length == 0 && (
-                    <View style={{alignItems: 'center', justifyContent: 'center', height: 300}}>
-                        <Text style={{color: COLORS.primary, ...FONTS.h3}}>No Record</Text>
-                    </View>
-                )}
-            </View>
-        );
-    }
+            return (
+                <View>
+                    {renderIncomingExpensesTitle()}
+
+                    {incomingExpenses.length > 0 && (
+                        <FlatList
+                            data={incomingExpenses}
+                            renderItem={renderItem}
+                            keyExtractor={item => `${item.id}`}
+                            horizontal
+                            showsHorizontalScrollIndicator={false}
+                        />
+                    )}
+
+                    {incomingExpenses.length == 0 && (
+                        <View style={{alignItems: 'center', justifyContent: 'center', height: 300}}>
+                            <Text style={{color: COLORS.primary, ...FONTS.h3}}>No Record</Text>
+                        </View>
+                    )}
+                </View>
+            );
+        }
 
     function processCategoryDataToDisplay() {
         // Filter expenses with "Confirmed" status
@@ -601,13 +611,13 @@ const Home = () => {
 
     return (
         <View style={{flex: 1, backgroundColor: COLORS.lightGray2}}>
-            {/* navbar section */}
+            {/* Nav bar section */}
             {renderNavBar()}
 
-            {/* header section */}
+            {/* Header section */}
             {renderHeader()}
 
-            {/* category header section */}
+            {/* Category Header Section */}
             {renderCategoryHeaderSection()}
 
             <ScrollView contentContainerStyle={{paddingBottom: 60}}>
@@ -619,7 +629,7 @@ const Home = () => {
                 )}
                 {viewMode == 'chart' && (
                     <View>
-                        {renderChart()}
+                        {/* {renderChart()} */}
                         {/* {renderExpenseSummary()} */}
                     </View>
                 )}
