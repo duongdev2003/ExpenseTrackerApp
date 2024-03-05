@@ -449,6 +449,69 @@ const Home = () => {
         );
     }
 
+    function renderIncomingExpensesTitle() {
+        return (
+            <View>
+                <Text style={{...FONTS.h3, color: COLORS.primary}}>INCOMING EXPENSES</Text>
+                <Text style={{...FONTS.body4, color: COLORS.darkgray}}>12 Total</Text>
+            </View>
+        );
+    }
+
+    function renderIncomingExpenses() {
+        let allExpenses = selectedCategory ? selectedCategory.expenses : [];
+        // Filter pending expenses
+        let incomingExpenses = allExpenses.filter(a => a.status == 'P');
+
+        const renderItem = ({item, index}) => {
+            <View>
+                {/* title */}
+                <View>
+                    <View
+                        style={{
+                            height: 30,
+                            width: 30,
+                            borderRadius: 25,
+                            backgroundColor: COLORS.lightGray,
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            marginRight: SIZES.base,
+                        }}>
+                        <Image
+                            source={selectedCategory.icon}
+                            style={{
+                                width: 30,
+                                height: 30,
+                                tintColor: selectedCategory.color,
+                            }}
+                        />
+                    </View>
+                    <Text style={{...FONTS.h3, color: selectedCategory.color}}>{selectedCategory.name}</Text>
+                </View>
+            </View>;
+        };
+
+        return (
+            <View>
+                {renderIncomingExpensesTitle()}
+                {incomingExpenses.length > 0 && (
+                    <FlatList
+                        data={incomingExpenses}
+                        renderItem={renderItem}
+                        keyExtractor={item => `${item.id}`}
+                        horizontal
+                        showsHorizontalScrollIndicator
+                    />
+                )}
+                {incomingExpenses.length == 0 && (
+                    <View style={{alignItems: 'center', justifyContent: 'center', height: 300}}>
+                        <Text style={{color: COLORS.primary, ...FONTS.h3}}>No Record</Text>
+                    </View>
+                )}
+            </View>
+        );
+    }
+
     return (
         <View style={{flex: 1, backgroundColor: COLORS.lightGray2}}>
             {/* navbar section */}
@@ -461,7 +524,12 @@ const Home = () => {
             {renderCategoryHeaderSection()}
 
             <ScrollView contentContainerStyle={{paddingBottom: 60}}>
-                {viewMode == 'list' && <View>{renderCategoryList()}</View>}
+                {viewMode == 'list' && (
+                    <View>
+                        {renderCategoryList()}
+                        {renderIncomingExpenses()}
+                    </View>
+                )}
             </ScrollView>
         </View>
     );
