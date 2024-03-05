@@ -18,7 +18,9 @@
     "react-native-gesture-handler": "^2.15.0",
     "react-native-reanimated": "^3.7.2",
     "react-native-safe-area-context": "^4.9.0",
-    "react-native-screens": "^3.29.0"
+    "react-native-screens": "^3.29.0",
+    "react-native-svg": "^15.0.0",
+    "victory-native": "^40.0.4"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",

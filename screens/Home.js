@@ -464,31 +464,72 @@ const Home = () => {
         let incomingExpenses = allExpenses.filter(a => a.status == 'P');
 
         const renderItem = ({item, index}) => {
-            <View>
-                {/* title */}
+            return (
                 <View>
-                    <View
-                        style={{
-                            height: 30,
-                            width: 30,
-                            borderRadius: 25,
-                            backgroundColor: COLORS.lightGray,
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            marginRight: SIZES.base,
-                        }}>
-                        <Image
-                            source={selectedCategory.icon}
+                    {/* title */}
+                    <View style={{flexDirection: 'row', padding: SIZES.padding, alignItems: 'center'}}>
+                        <View
                             style={{
-                                width: 30,
-                                height: 30,
-                                tintColor: selectedCategory.color,
-                            }}
-                        />
+                                height: 50,
+                                width: 50,
+                                borderRadius: 25,
+                                backgroundColor: COLORS.lightGray,
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                marginRight: SIZES.base,
+                            }}>
+                            <Image
+                                source={selectedCategory.icon}
+                                style={{
+                                    width: 30,
+                                    height: 30,
+                                    tintColor: selectedCategory.color,
+                                }}
+                            />
+                        </View>
+                        <Text style={{...FONTS.h3, color: selectedCategory.color}}>{selectedCategory.name}</Text>
                     </View>
-                    <Text style={{...FONTS.h3, color: selectedCategory.color}}>{selectedCategory.name}</Text>
+                    {/* expenses desc */}
+                    <View style={{paddingHorizontal: SIZES.padding}}>
+                        {/* title and desc */}
+                        <Text style={{...FONTS.h2}}>{item.title}</Text>
+                        <Text style={{...FONTS.body3, flexWrap: 'wrap', color: COLORS.darkgray}}>
+                            {item.description}
+                        </Text>
+
+                        {/* location */}
+                        <Text style={{marginTop: SIZES.padding}}>Location</Text>
+                        <View style={{flexDirection: 'row'}}>
+                            <Image
+                                source={icons.pin}
+                                style={{
+                                    width: 20,
+                                    height: 20,
+                                    tintColor: COLORS.darkgray,
+                                    marginRight: 5,
+                                }}
+                            />
+                            <Text style={{marginBottom: SIZES.base, color: COLORS.darkgray, ...FONTS.body4}}>
+                                {item.location}
+                            </Text>
+                        </View>
+                        {/* price */}
+                        <View
+                            style={{
+                                height: 50,
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                borderBottomStartRadius: SIZES.radius,
+                                borderBottomEndRadius: SIZES.radius,
+                                backgroundColor: selectedCategory.color,
+                            }}>
+                            <Text style={{color: COLORS.white, ...FONTS.body3}}>
+                                CONFIRM {item.total.toFixed(2)} USD
+                            </Text>
+                        </View>
+                    </View>
                 </View>
-            </View>;
+            );
         };
 
         return (
@@ -512,6 +553,14 @@ const Home = () => {
         );
     }
 
+    function renderChart() {
+        return (
+            <View>
+                <VictoryPie />
+            </View>
+        );
+    }
+
     return (
         <View style={{flex: 1, backgroundColor: COLORS.lightGray2}}>
             {/* navbar section */}
@@ -530,6 +579,7 @@ const Home = () => {
                         {renderIncomingExpenses()}
                     </View>
                 )}
+                {viewMode == 'chart' && <View>{renderChart()}</View>}
             </ScrollView>
         </View>
     );
