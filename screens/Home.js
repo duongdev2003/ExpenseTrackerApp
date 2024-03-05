@@ -785,6 +785,15 @@ const Home = () => {
                 )}
                 {viewMode == 'chart' && (
                     <View>
+                        <Text
+                            style={{
+                                marginLeft: 10,
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                ...FONTS.h3,
+                            }}>
+                            DUMA PHẦN NÀY ĐANG LỖI, BỐ DUTBUOI SỬA
+                        </Text>
                         {/* {renderChart()} */}
                         {renderExpenseSummary()}
                     </View>
